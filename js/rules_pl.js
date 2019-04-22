@@ -155,8 +155,9 @@ function ckNI(d,f,t,r,s,l,n) {
 	if(rul[l[0]-1]!='Assumption') {
 		throw flag+'The first rule line must be an assumption.';
 	}
-	if(tr[l[1]-1].length!=1 || tr[l[1]-1][0]!='#') {
-		throw flag+'The second rule line must be the absurdity (i.e. #).';
+	var uwu = unparse(tr[l[1]-1]).split("&");
+	if(tr[l[1]-1][0]!=='#' && uwu.length !== 2 && ("~" + uwu[0].trim().slice(1) !== uwu[1].trim().slice(0,-1))) {
+		throw flag+'The second rule line must be the absurdity (i.e. # or P & ~P).';
 	}	 
 	if(f!=('~'+frm[l[0]-1])) {
 		throw flag+'The formula being derived must be the negation of the assumption on the first rule line.';
@@ -174,8 +175,9 @@ function ckNE(d,f,t,r,s,l,n) {
 	if(l.length!=2) {
 		throw flag+'Rule must be applied to two lines.';
 	}
+	;
 	if(f!='#') {
-		throw flag+'Formula being derived must be the absurdity, #.';
+		throw flag+'Formula being derived must be the absurdity, #, or a contradition.';
 	}
 	if(frm[l[0]-1]!=('~'+frm[l[1]-1]) && ('~'+frm[l[0]-1])!=frm[l[1]-1]) {
 		throw flag+'One of lines '+l[0]+' or '+l[1]+' must be the negation of the other.';
